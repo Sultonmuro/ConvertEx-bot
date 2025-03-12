@@ -4,8 +4,8 @@ import requests
 from typing import Final
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
-from aiogram.enums import ParseMode
-from aiogram.client.default import DefaultBotProperties
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton,CallbackQuery
+
 # Constants
 TOKEN: Final = "7976994360:AAHhaW7XbqFC1nDABn5X7wllpMOGZWvVw7U"
 BOT_USERNAME: Final = "@currencyConverter_bot_bot"
@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
-# Start command
+
 @dp.message(Command("start"))
 
 async def send_welcome(message: types.Message):
@@ -30,18 +30,58 @@ async def send_welcome(message: types.Message):
         "Используйте `/convert`, чтобы начать конвертацию валют."
     )
 
-# Convert command
+
 @dp.message(Command("convert"))
 async def convert(message: types.Message):
+
     await message.reply(
         "Please enter the amount you want to convert and the currency code you want to convert to.\n"
         "Пожалуйста, введите сумму, которую хотите конвертировать, и код валюты, в которую хотите конвертировать.\n\n"
         "**Format:** `<amount> <from_currency> <to_currency>`\n"
         "**Формат:** `<сумма> <из_валюты> <в_валюту>`\n\n"
         "**Example:** `10 USD INR`\n"
-        "**Пример:** `10 USD INR`"
+        "**Пример:** `10 USD INR`",
     )
-# Handling conversion logic
+
+@dp.message(Command("help"))
+async def send_help(message: types.Message):
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard = [
+            [
+                InlineKeyboardButton(text="start", callback_data="start"),
+                InlineKeyboardButton(text="About", callback_data="about"),
+                InlineKeyboardButton(text="Help", callback_data="help"),
+                InlineKeyboardButton(text="convert", callback_data="convert"),
+            ]
+        ]
+    )
+    await message.reply(
+        "**ConvertEx Bot Commands:**\n"
+        "**Команды ConvertEx Bot:**\n\n"
+        "`/start` - Start the bot(Запустить бота)\n"
+        "`/convert` - Convert currencies(Конвертировать валюты)\n"
+        "`/help` - Show help message(Помочь)\n"
+        "`/about` - Show information about the bot(Показать информацию о боте)\n",
+        reply_markup = keyboard
+    )
+
+
+@dp.message(Command("about"))
+async def send_about(message: types.Message):
+    await message.reply(
+       "This bot uses the ExchangeRate-API to provide currency conversion rates.\n"
+    )
+@dp.callback_query()
+async def handle_callBack(query: CallbackQuery):
+    data = query.data
+    if data =="start":
+       await send_welcome(query.message)
+    elif data == "about":
+        await send_about(query.message)
+    elif data == "help":
+        await send_help(query.message)
+    elif data == "convert":
+        await convert(query.message)
 @dp.message()
 async def handle_conversion(message: types.Message):
     try:
@@ -74,7 +114,7 @@ async def handle_conversion(message: types.Message):
         logging.error(f"Error: {e}")
         await message.reply("An unexpected error occurred. Please try again.")
 
-# Main function
+
 async def main():
     await dp.start_polling(bot)
 
