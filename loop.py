@@ -23,11 +23,19 @@ dp = Dispatcher()
 @dp.message(Command("start"))
 
 async def send_welcome(message: types.Message):
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard = [
+            [
+                InlineKeyboardButton (text="convert", callback_data = "convert")
+            ]
+        ]
+    )
     await message.reply(
         "Welcome to **ConvertEx Bot! 🎉\n"
         "Добро пожаловать в **ConvertEx Bot! 🎉\n\n"
-        "Use `/convert` to start converting currencies.\n"
-        "Используйте `/convert`, чтобы начать конвертацию валют."
+        "Press convert button to start currency conversion.\n"
+        "Нажмите на кнопку convert, чтобы начать конвертацию валют.",
+        reply_markup=keyboard
     )
 
 
