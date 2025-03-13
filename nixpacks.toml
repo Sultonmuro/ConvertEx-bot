@@ -6,3 +6,6 @@ cmds = ["pip install -r requirements.txt"]
 
 [start]
 cmd = "python loop.py"
+
+[[ports]]
+port = 5000
