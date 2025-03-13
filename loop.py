@@ -12,12 +12,13 @@ BOT_USERNAME: Final = "@currencyConverter_bot_bot"
 API_KEY: Final = "558d3841e6e1aae56c54db7b"
 API_URL: Final = f"https://v6.exchangerate-api.com/v6/{API_KEY}/latest/"
 
+
 # Logging setup
 logging.basicConfig(level=logging.INFO)
 
 # Initialize bot and dispatcher
 bot = Bot(token=TOKEN)
-dp = Dispatcher()
+dp = Dispatcher(bot=bot)
 
 
 @dp.message(Command("start"))
@@ -128,7 +129,11 @@ async def main():
 
 # Run the bot
 if __name__ == "__main__":
-    asyncio.run(main())
+    loop = asyncio.get_event_loop()
+    try:
+        loop.run_until_complete(main())
+    except KeyboardInterrupt:
+        print("Bot stopped.")
 
 
 
