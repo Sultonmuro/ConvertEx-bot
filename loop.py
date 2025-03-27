@@ -4,7 +4,7 @@ import requests
 from typing import Final
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton,CallbackQuery
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton,CallbackQuery,ReplyKeyboardMarkup
 
 # Constants
 TOKEN: Final = "7976994360:AAHhaW7XbqFC1nDABn5X7wllpMOGZWvVw7U"
@@ -31,6 +31,7 @@ async def send_welcome(message: types.Message):
             ]
         ]
     )
+
     await message.reply(
         "Welcome to **ConvertEx Bot! 🎉\n"
         "Добро пожаловать в **ConvertEx Bot! 🎉\n\n"
@@ -42,15 +43,16 @@ async def send_welcome(message: types.Message):
 
 @dp.message(Command("convert"))
 async def convert(message: types.Message):
-
     await message.reply(
-        "Please enter the amount you want to convert and the currency code you want to convert to.\n"
-        "Пожалуйста, введите сумму, которую хотите конвертировать, и код валюты, в которую хотите конвертировать.\n\n"
-        "**Format:** `<amount> <from_currency> <to_currency>`\n"
-        "**Формат:** `<сумма> <из_валюты> <в_валюту>`\n\n"
-        "**Example:** `10 USD INR`\n"
-        "**Пример:** `10 USD INR`",
+        "💱 **Currency Converter** 💱\n\n"
+        "🔹 **Enter the amount and currency code you want to convert.**\n"
+        "🔹 **Введите сумму и код валюты для конвертации.**\n\n"
+        "**📝 Format:** `<amount> <from_currency> <to_currency>`\n"
+        "**📌 Формат:** `<сумма> <из_валюты> <в_валюту>`\n\n"
+        "**✨ Example:** `10 USD INR`\n"
+        "**🌟 Пример:** `10 USD INR`"
     )
+
 
 @dp.message(Command("help"))
 async def send_help(message: types.Message):
@@ -91,6 +93,7 @@ async def handle_callBack(query: CallbackQuery):
         await send_help(query.message)
     elif data == "convert":
         await convert(query.message)
+
 @dp.message()
 async def handle_conversion(message: types.Message):
     try:
