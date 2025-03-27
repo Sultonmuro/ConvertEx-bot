@@ -44,13 +44,13 @@ async def send_welcome(message: types.Message):
 @dp.message(Command("convert"))
 async def convert(message: types.Message):
     await message.reply(
-        "💱 **Currency Converter** 💱\n\n"
-        "🔹 **Enter the amount and currency code you want to convert.**\n"
-        "🔹 **Введите сумму и код валюты для конвертации.**\n\n"
-        "**📝 Format:** `<amount> <from_currency> <to_currency>`\n"
-        "**📌 Формат:** `<сумма> <из_валюты> <в_валюту>`\n\n"
-        "**✨ Example:** `10 USD INR`\n"
-        "**🌟 Пример:** `10 USD INR`"
+        "💱 Currency Converter 💱\n\n"
+        "🔹 Enter the amount and currency code you want to convert.\n"
+        "🔹 Введите сумму и код валюты для конвертации.\n\n"
+        "📝 Format: `<amount> <from_currency> <to_currency>`\n"
+        "📌 Формат: `<сумма> <из_валюты> <в_валюту>`\n\n"
+        "✨ Example: `10 USD INR`\n"
+        "🌟 Пример: `10 USD INR`"
     )
 
 
